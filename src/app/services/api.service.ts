@@ -57,7 +57,7 @@ export interface EnhancedStatsResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'http://13.127.133.213:3000/api';
   private http = inject(HttpClient);
 
   private getHeaders(): HttpHeaders {
