@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body, input, button, textarea, select {
+  font-family: 'Poppins', sans-serif !important;
+  margin: 0;
+}
+
+body {
+  background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 50%, #fef8e8 100%);
+  min-height: 100vh;
+}

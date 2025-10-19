@@ -1,0 +1,144 @@
+<div class="stats-container">
+  <div class="header">
+    <h1>Your Progress</h1>
+    <p>Keep crushing it! 💪</p>
+  </div>
+
+  <!-- Overall Stats Cards -->
+  @if (overall()) {
+  <div class="overall-stats">
+    <div class="stat-card streak">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-content">
+        <div class="stat-value">{{ overall()!.currentStreak }}</div>
+        <div class="stat-label">Day Streak</div>
+        @if (overall()!.currentStreak > 0) {
+        <div class="stat-subtitle">Best: {{ overall()!.longestStreak }} days</div>
+        }
+      </div>
+    </div>
+
+    <div class="stat-card workouts">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <div class="stat-value">{{ overall()!.totalWorkoutDays }}</div>
+        <div class="stat-label">Workout Days</div>
+        <div class="stat-subtitle">{{ overall()!.totalExercises }} exercises</div>
+      </div>
+    </div>
+
+    <div class="stat-card progress" [class.positive]="overall()!.comparisonPercent > 0"
+      [class.negative]="overall()!.comparisonPercent < 0">
+      <div class="stat-icon">{{ overall()!.comparisonPercent >= 0 ? '📈' : '📉' }}</div>
+      <div class="stat-content">
+        <div class="stat-value">{{ overall()!.comparisonPercent > 0 ? '+' : '' }}{{ overall()!.comparisonPercent }}%
+        </div>
+        <div class="stat-label">vs Your Average</div>
+        <div class="stat-subtitle">
+          @if (overall()!.comparisonPercent > 0) {
+          Crushing it!
+          } @else if (overall()!.comparisonPercent < 0) { You got this! } @else { Right on track! } </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!-- Date Range Selector -->
+    <div class="date-range-selector">
+      @for (range of dateRanges; track range.value) {
+      <button class="range-btn" [class.active]="selectedDays() === range.value" (click)="selectDateRange(range.value)">
+        {{ range.label }}
+      </button>
+      }
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      @for (category of categories; track category) {
+      <button class="tab" [class.active]="selectedCategory() === category" (click)="selectCategory(category)">
+        {{ category }}
+      </button>
+      }
+    </div>
+
+    <!-- Exercise Cards -->
+    @if (exercises().length > 0) {
+    <div class="exercises-grid">
+      @for (exercise of exercises(); track exercise.exerciseName) {
+      <div class="exercise-card">
+        <div class="exercise-header">
+          <h3>{{ exercise.exerciseName }}</h3>
+        </div>
+
+        <!-- Reps Section -->
+        @if (exercise.totals.reps > 0) {
+        <div class="metric-section">
+          <div class="metric-header">
+            <span class="metric-label">Reps</span>
+            <span class="metric-change"
+              [class]="getChangeClass(exercise.totals.reps, exercise.expectedFromAverage.reps)">
+              {{ getChangeIcon(exercise.totals.reps, exercise.expectedFromAverage.reps) }}
+              {{ getChangePercent(exercise.totals.reps, exercise.expectedFromAverage.reps) > 0 ? '+' : '' }}{{
+              getChangePercent(exercise.totals.reps, exercise.expectedFromAverage.reps) }}%
+            </span>
+          </div>
+          <div class="metric-value">
+            {{ exercise.totals.reps }}
+            <span class="metric-subtitle">in period</span>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill"
+                [style.width.%]="getProgressPercent(exercise.totals.reps, exercise.expectedFromAverage.reps)"
+                [style.background]="getProgressColor(exercise.totals.reps, exercise.expectedFromAverage.reps)">
+              </div>
+            </div>
+            <div class="progress-labels">
+              <span class="label-avg">Avg: {{ exercise.lifetimeAverage.reps }}/day</span>
+              <span class="label-expected">Expected: {{ exercise.expectedFromAverage.reps }}</span>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Count Section -->
+        @if (exercise.totals.count > 0) {
+        <div class="metric-section">
+          <div class="metric-header">
+            <span class="metric-label">Sets</span>
+            <span class="metric-change"
+              [class]="getChangeClass(exercise.totals.count, exercise.expectedFromAverage.count)">
+              {{ getChangeIcon(exercise.totals.count, exercise.expectedFromAverage.count) }}
+              {{ getChangePercent(exercise.totals.count, exercise.expectedFromAverage.count) > 0 ? '+' : '' }}{{
+              getChangePercent(exercise.totals.count, exercise.expectedFromAverage.count) }}%
+            </span>
+          </div>
+          <div class="metric-value">
+            {{ exercise.totals.count }}
+            <span class="metric-subtitle">in period</span>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill"
+                [style.width.%]="getProgressPercent(exercise.totals.count, exercise.expectedFromAverage.count)"
+                [style.background]="getProgressColor(exercise.totals.count, exercise.expectedFromAverage.count)">
+              </div>
+            </div>
+            <div class="progress-labels">
+              <span class="label-avg">Avg: {{ exercise.lifetimeAverage.count }}/day</span>
+              <span class="label-expected">Expected: {{ exercise.expectedFromAverage.count }}</span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="empty-state">
+      <div class="empty-icon">💤</div>
+      <h3>No workout data yet!</h3>
+      <p>Start logging your exercises to see your amazing progress here</p>
+    </div>
+    }
+  </div>

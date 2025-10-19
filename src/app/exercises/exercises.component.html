@@ -1,0 +1,38 @@
+<div class="exercises-container">
+  <div class="header">
+    <h1>Exercise Manager</h1>
+    <p>Define exercises for each muscle group</p>
+  </div>
+
+  <div class="category-tabs">
+    @for (category of categories; track category) {
+      <button 
+        class="tab"
+        [class.active]="selectedCategory() === category"
+        (click)="selectCategory(category)">
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  <div class="add-exercise">
+    <input 
+      type="text" 
+      [(ngModel)]="newExerciseName"
+      placeholder="Enter exercise name"
+      (keyup.enter)="addExercise()">
+    <button (click)="addExercise()">Add</button>
+  </div>
+
+  <div class="exercises-list">
+    @for (exercise of getExercisesByCategory(selectedCategory()); track exercise._id) {
+      <div class="exercise-item">
+        <span>{{ exercise.name }}</span>
+        <button class="delete-btn" (click)="deleteExercise(exercise._id!)">×</button>
+      </div>
+    } @empty {
+      <div class="empty-state">No exercises added yet</div>
+    }
+  </div>
+</div>
+
