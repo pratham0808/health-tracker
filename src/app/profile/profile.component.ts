@@ -14,6 +14,8 @@ export interface UserProfile {
   gender?: 'male' | 'female' | 'other';
   fitnessLevel?: 'beginner' | 'intermediate' | 'advanced';
   goals?: string[];
+  waterGoal?: number;
+  stepsGoal?: number;
 }
 
 @Component({
@@ -36,7 +38,9 @@ export class ProfileComponent {
     age: undefined,
     gender: undefined,
     fitnessLevel: undefined,
-    goals: []
+    goals: [],
+    waterGoal: 3,
+    stepsGoal: 10000
   });
 
   isSaving = signal(false);

@@ -163,5 +163,30 @@ export class ApiService {
   updateProfile(profileData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/profile`, profileData, { headers: this.getHeaders() });
   }
+
+  // Log Essential endpoints
+  getLogEssential(date?: string): Observable<any> {
+    let url = `${this.apiUrl}/log-essentials`;
+    if (date) {
+      url += `?date=${date}`;
+    }
+    return this.http.get(url, { headers: this.getHeaders() });
+  }
+
+  getAllLogEssentials(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/log-essentials/all`, { headers: this.getHeaders() });
+  }
+
+  createOrUpdateLogEssential(logEssentialData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/log-essentials`, logEssentialData, { headers: this.getHeaders() });
+  }
+
+  updateLogEssential(logEssentialData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/log-essentials`, logEssentialData, { headers: this.getHeaders() });
+  }
+
+  deleteLogEssential(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/log-essentials/${id}`, { headers: this.getHeaders() });
+  }
 }
 

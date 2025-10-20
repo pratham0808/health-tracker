@@ -1,0 +1,164 @@
+.daily-essentials-container {
+  padding: 16px;
+  background: #fffef8;
+  border: 2px solid #f0e6d6;
+  border-radius: 8px;
+}
+
+.essentials-summary {
+  .summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2c2416;
+    }
+
+    .date-input {
+      padding: 8px 12px;
+      border: 2px solid #f0e6d6;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      background: white;
+      color: #2c2416;
+      outline: none;
+      cursor: pointer;
+
+      &:focus {
+        border-color: #f4a261;
+      }
+    }
+  }
+
+  .essentials-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .essential-item {
+    background: white;
+    border: 2px solid #f0e6d6;
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+
+    .essential-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      .essential-name {
+        font-weight: 600;
+        color: #2c2416;
+        font-size: 14px;
+      }
+
+      .essential-goal {
+        font-size: 11px;
+        color: #8b7355;
+        background: #f8f5f0;
+        padding: 2px 6px;
+        border-radius: 8px;
+        font-weight: 600;
+      }
+    }
+
+    .essential-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .decrement-btn, .increment-btn {
+        width: 32px;
+        height: 32px;
+        border: 2px solid #f0e6d6;
+        border-radius: 8px;
+        background: #fffef8;
+        color: #2c2416;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        &:hover {
+          background: #f4a261;
+          color: white;
+          border-color: #f4a261;
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .progress-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+
+        .progress-bar {
+          width: 100%;
+          height: 12px;
+          background: #f0e6d6;
+          border-radius: 6px;
+          overflow: hidden;
+          position: relative;
+
+          .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+              animation: shimmer 2s infinite;
+            }
+          }
+        }
+
+        .progress-text {
+          font-size: 11px;
+          color: #8b7355;
+          font-weight: 600;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,48 @@
+<div class="daily-essentials-container">
+  <div class="essentials-summary">
+    <div class="summary-header">
+      <h3>Log Essentials</h3>
+      <input 
+        type="date" 
+        class="date-input"
+        [ngModel]="selectedDate()"
+        (ngModelChange)="selectedDate.set($event); dateChanged()">
+    </div>
+
+    <div class="essentials-container">
+      <div class="essential-item">
+        <div class="essential-header">
+          <span class="essential-name">💧 Water</span>
+          <span class="essential-goal">{{ userProfile()?.waterGoal || 3 }}L goal</span>
+        </div>
+        <div class="essential-input">
+          <button class="decrement-btn" (click)="decrementWater()">−</button>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getWaterProgress()"></div>
+            </div>
+            <span class="progress-text">{{ (logEssential()?.waterIntake || 0) | number:'1.1-1' }}L / {{ userProfile()?.waterGoal || 3 }}L</span>
+          </div>
+          <button class="increment-btn" (click)="incrementWater()">+</button>
+        </div>
+      </div>
+
+      <div class="essential-item">
+        <div class="essential-header">
+          <span class="essential-name">🚶 Steps</span>
+          <span class="essential-goal">{{ userProfile()?.stepsGoal || 10000 }} goal</span>
+        </div>
+        <div class="essential-input">
+          <button class="decrement-btn" (click)="decrementSteps()">−</button>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getStepsProgress()"></div>
+            </div>
+            <span class="progress-text">{{ (logEssential()?.steps || 0) | number }} / {{ (userProfile()?.stepsGoal || 10000) | number }}</span>
+          </div>
+          <button class="increment-btn" (click)="incrementSteps()">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

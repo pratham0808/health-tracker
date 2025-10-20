@@ -149,6 +149,40 @@
         </div>
       }
     </div>
+
+    <!-- Essential Goals Accordion -->
+    <div class="accordion-section">
+      <div class="accordion-header" (click)="toggleSection('essentials')">
+        <h3>Essential Goals</h3>
+        <span class="accordion-icon">{{ isExpanded('essentials') ? '▼' : '▶' }}</span>
+      </div>
+      @if (isExpanded('essentials')) {
+        <div class="accordion-content">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="waterGoal">Daily Water Goal (liters)</label>
+              <input 
+                id="waterGoal"
+                type="number" 
+                [(ngModel)]="profile().waterGoal"
+                placeholder="Enter daily water goal"
+                min="0"
+                step="0.1">
+            </div>
+            <div class="form-group">
+              <label for="stepsGoal">Daily Steps Goal</label>
+              <input 
+                id="stepsGoal"
+                type="number" 
+                [(ngModel)]="profile().stepsGoal"
+                placeholder="Enter daily steps goal"
+                min="0"
+                step="100">
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="save-actions">

@@ -1,0 +1,55 @@
+<div class="exercise-logger-container">
+  <div class="summary-header">
+    <h3>Log Exercise</h3>
+    <input 
+      type="date" 
+      class="date-input"
+      [ngModel]="selectedDate()"
+      (ngModelChange)="selectedDate.set($event); dateChanged()">
+  </div>
+
+  <div class="category-tabs-container">
+    <app-category-tabs 
+      [categories]="categories()" 
+      [selectedCategory]="selectedCategoryId()" 
+      (categoryChange)="selectCategory($event)">
+    </app-category-tabs>
+  </div>
+  
+  <div class="add-exercise-dropdown">
+    <select [(ngModel)]="selectedExerciseId">
+      <option value="">Select exercise to add...</option>
+      @for (exercise of availableExercises(); track exercise._id) {
+        <option [value]="exercise._id">{{ exercise.exerciseName }}</option>
+      }
+    </select>
+    <button (click)="onExerciseSelected()">Add</button>
+  </div>
+
+  @for (log of logsForDate(); track log._id) {
+    <div class="summary-item">
+      <span class="exercise-name">{{ log.exerciseName }}</span>
+      <div class="log-inputs">
+        <div class="input-with-label">
+          <label>Reps</label>
+          <input 
+            type="number" 
+            [ngModel]="log.reps"
+            (ngModelChange)="updateReps(log._id!, $event)"
+            placeholder="0">
+        </div>
+        <div class="input-with-label">
+          <label>Count</label>
+          <input 
+            type="number" 
+            [ngModel]="log.count"
+            (ngModelChange)="updateCount(log._id!, $event)"
+            placeholder="0">
+        </div>
+      </div>
+      <button class="delete-btn" (click)="deleteLog(log._id!)">×</button>
+    </div>
+  } @empty {
+    <div class="empty-state">No logs for this date yet</div>
+  }
+</div>
