@@ -2,7 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryTabsComponent } from '../stats/category-tabs/category-tabs.component';
-import { ApiService, Exercise, Log, ExerciseGroupsDoc } from '../services/api.service';
+import { ApiService, Log, ExerciseGroupsDoc } from '../services/api.service';
 import moment from 'moment';
 
 @Component({
@@ -14,40 +14,44 @@ import moment from 'moment';
 })
 export class LoggerComponent {
   exerciseGroups = signal<ExerciseGroupsDoc | null>(null);
-  selectedCategory = signal('');
+  selectedCategoryId = signal('');
   selectedDate = signal(this.getTodayDate());
-  exercises = signal<Exercise[]>([]);
   logs = signal<Log[]>([]);
   selectedExerciseId = '';
 
   categories = computed(() => {
-    return this.exerciseGroups()?.categories.map(cat => cat.categoryName) ?? [];
+    return this.exerciseGroups()?.categories.map(cat => ({
+      id: cat._id!,
+      name: cat.categoryName
+    })) ?? [];
   });
 
   logsForDate = computed(() => {
-    return this.logs().filter(log => {
-      const logDate = moment(log.date).format('YYYY-MM-DD');
-      return logDate === this.selectedDate() && 
-             log.category === this.selectedCategory();
-    });
+    return this.logs();
   });
 
   availableExercises = computed(() => {
+    if (!this.selectedCategoryId()) return [];
+    
     const loggedExerciseIds = this.logsForDate().map(log => log.exerciseId);
-    return this.exercises().filter(ex => 
-      ex.category === this.selectedCategory() && 
-      !loggedExerciseIds.includes(ex._id!)
+    const category = this.exerciseGroups()?.categories.find(cat => cat._id === this.selectedCategoryId());
+    if (!category) return [];
+    
+    return category.exercises.filter(ex => 
+      ex.exerciseName && 
+      ex.exerciseName.trim() && 
+      ex._id && 
+      !loggedExerciseIds.includes(ex._id)
     );
   });
 
   constructor(private apiService: ApiService) {
     this.loadExerciseGroups();
-    this.loadExercises();
     this.loadLogs();
   }
 
-  selectCategory(category: string) {
-    this.selectedCategory.set(category);
+  selectCategory(categoryId: string) {
+    this.selectedCategoryId.set(categoryId);
     this.loadLogs();
   }
 
@@ -58,25 +62,28 @@ export class LoggerComponent {
   onExerciseSelected() {
     if (!this.selectedExerciseId) return;
     
-    const exercise = this.exercises().find(ex => ex._id === this.selectedExerciseId);
-    if (exercise) {
-        const newLog: Log = {
-          exerciseId: exercise._id!,
-          exerciseName: exercise.name,
-          category: exercise.category,
-          date: this.selectedDate(),
-          reps: 0,
-          count: 0
-        };
-      
-      this.apiService.createLog(newLog).subscribe({
-        next: (log) => {
-          this.logs.update(logs => [...logs, log]);
-          this.selectedExerciseId = '';
-        },
-        error: (err: any) => console.error('Failed to create log:', err)
-      });
-    }
+    const category = this.exerciseGroups()?.categories.find(cat => cat._id === this.selectedCategoryId());
+    const exercise = category?.exercises.find(ex => ex._id === this.selectedExerciseId);
+    
+    if (!exercise || !category) return;
+    
+    const newLog: Log = {
+      exerciseId: exercise._id!,
+      categoryId: category._id!,
+      exerciseName: exercise.exerciseName,
+      category: category.categoryName,
+      date: this.selectedDate(),
+      reps: 0,
+      count: 0
+    };
+  
+    this.apiService.createLog(newLog).subscribe({
+      next: (log) => {
+        this.logs.update(logs => [...logs, log]);
+        this.selectedExerciseId = '';
+      },
+      error: (err: any) => console.error('Failed to create log:', err)
+    });
   }
 
   updateReps(logId: string, value: number) {
@@ -111,28 +118,19 @@ export class LoggerComponent {
   }
 
   private loadExerciseGroups() {
-    this.apiService.getExerciseGroupsByUser().subscribe({
+    this.apiService.getExerciseGroups().subscribe({
       next: (groups) => {
         this.exerciseGroups.set(groups);
-        if (groups && groups.categories.length > 0 && !this.selectedCategory()) {
-          this.selectedCategory.set(groups.categories[0].categoryName);
+        if (groups && groups.categories.length > 0 && !this.selectedCategoryId()) {
+          this.selectedCategoryId.set(groups.categories[0]._id!);
         }
       },
       error: (err) => console.error('Failed to load exercise groups:', err)
     });
   }
 
-  private loadExercises() {
-    this.apiService.getExercises().subscribe({
-      next: (exercises: Exercise[]) => {
-        this.exercises.set(exercises);
-      },
-      error: (err: any) => console.error('Failed to load exercises:', err)
-    });
-  }
-
   private loadLogs() {
-    this.apiService.getLogs(this.selectedDate()).subscribe({
+    this.apiService.getLogs(this.selectedDate(), this.selectedCategoryId()).subscribe({
       next: (logs: Log[]) => {
         this.logs.set(logs);
       },

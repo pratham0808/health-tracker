@@ -1,6 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+export interface Category {
+  id: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-category-tabs',
   standalone: true,
@@ -9,12 +14,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './category-tabs.component.scss'
 })
 export class CategoryTabsComponent {
-  categories = input.required<string[]>();
+  categories = input.required<Category[]>();
   selectedCategory = input.required<string>();
   categoryChange = output<string>();
 
-  onSelect(category: string) {
-    this.categoryChange.emit(category);
+  onSelect(categoryId: string) {
+    this.categoryChange.emit(categoryId);
   }
 }
 

@@ -15,7 +15,7 @@
     
     @if (getCategories().length > 0) {
       <div class="groups-list">
-        @for (category of getCategories(); track category) {
+        @for (category of getCategories(); track trackByIndex($index)) {
           <div class="group-card">
             <div class="group-header">
               <input 

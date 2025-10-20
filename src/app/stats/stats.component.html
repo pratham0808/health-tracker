@@ -7,8 +7,8 @@
   <!-- Filters Row -->
   <div class="filters-row">
     <app-category-tabs 
-      [categories]="categories" 
-      [selectedCategory]="selectedCategory()" 
+      [categories]="categories()" 
+      [selectedCategory]="selectedCategoryId()" 
       (categoryChange)="selectCategory($event)">
     </app-category-tabs>
     
@@ -61,7 +61,7 @@
     <!-- Exercise Cards -->
     @if (exercises().length > 0) {
     <div class="exercises-grid">
-      @for (exercise of exercises(); track exercise.exerciseName) {
+      @for (exercise of exercises(); track exercise.exerciseId) {
       <div class="exercise-card">
         <div class="exercise-header">
           <h3>{{ exercise.exerciseName }}</h3>

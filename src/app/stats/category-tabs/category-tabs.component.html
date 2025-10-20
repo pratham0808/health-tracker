@@ -1,7 +1,7 @@
 <div class="category-tabs">
-  @for (category of categories(); track category) {
-  <button class="tab" [class.active]="selectedCategory() === category" (click)="onSelect(category)">
-    {{ category }}
+  @for (category of categories(); track category.id) {
+  <button class="tab" [class.active]="selectedCategory() === category.id" (click)="onSelect(category.id)">
+    {{ category.name }}
   </button>
   }
 </div>

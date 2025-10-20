@@ -11,6 +11,7 @@ export interface Exercise {
 export interface Log {
   _id?: string;
   exerciseId: string;
+  categoryId: string;
   exerciseName: string;
   category: string;
   date: string;
@@ -24,7 +25,10 @@ export interface DailyStats {
 }
 
 export interface ExerciseStats {
+  exerciseId: string;
   exerciseName: string;
+  categoryId: string;
+  categoryName: string;
   dailyData: { [date: string]: DailyStats };
   totals: DailyStats;
   lifetimeAverage: {
@@ -57,8 +61,12 @@ export interface EnhancedStatsResponse {
 export interface ExerciseGroupsDoc {
   _id?: string;
   categories: Array<{
+    _id?: string;
     categoryName: string;
-    exercises: Array<{ exerciseName: string }>;
+    exercises: Array<{ 
+      _id?: string;
+      exerciseName: string;
+    }>;
   }>;
 }
 
@@ -93,12 +101,12 @@ export class ApiService {
   }
 
   // Log endpoints
-  getLogs(date?: string, category?: string): Observable<Log[]> {
+  getLogs(date?: string, categoryId?: string): Observable<Log[]> {
     let url = `${this.apiUrl}/logs`;
     const params: string[] = [];
     
     if (date) params.push(`date=${date}`);
-    if (category) params.push(`category=${category}`);
+    if (categoryId) params.push(`categoryId=${categoryId}`);
     
     if (params.length > 0) {
       url += '?' + params.join('&');
@@ -120,11 +128,11 @@ export class ApiService {
   }
 
   // Stats endpoints
-  getStats(days: number, category?: string): Observable<EnhancedStatsResponse> {
+  getStats(days: number, categoryId?: string): Observable<EnhancedStatsResponse> {
     let url = `${this.apiUrl}/stats?days=${days}`;
     
-    if (category) {
-      url += `&category=${category}`;
+    if (categoryId) {
+      url += `&categoryId=${categoryId}`;
     }
     
     return this.http.get<EnhancedStatsResponse>(url, { headers: this.getHeaders() });

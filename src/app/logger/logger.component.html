@@ -17,7 +17,7 @@
     <div class="category-tabs-container">
       <app-category-tabs 
         [categories]="categories()" 
-        [selectedCategory]="selectedCategory()" 
+        [selectedCategory]="selectedCategoryId()" 
         (categoryChange)="selectCategory($event)">
       </app-category-tabs>
     </div>
@@ -26,7 +26,7 @@
       <select [(ngModel)]="selectedExerciseId">
         <option value="">Select exercise to add...</option>
         @for (exercise of availableExercises(); track exercise._id) {
-          <option [value]="exercise._id">{{ exercise.name }}</option>
+          <option [value]="exercise._id">{{ exercise.exerciseName }}</option>
         }
       </select>
       <button (click)="onExerciseSelected()">Add</button>

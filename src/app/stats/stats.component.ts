@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryTabsComponent } from './category-tabs/category-tabs.component';
 import { DateRangeDropdownComponent } from './date-range-dropdown/date-range-dropdown.component';
-import { ApiService, ExerciseStats, OverallStats } from '../services/api.service';
+import { ApiService, ExerciseStats, OverallStats, ExerciseGroupsDoc } from '../services/api.service';
 
 @Component({
   selector: 'app-stats',
@@ -12,8 +12,8 @@ import { ApiService, ExerciseStats, OverallStats } from '../services/api.service
   styleUrl: './stats.component.scss'
 })
 export class StatsComponent {
-  categories = ['arms', 'core', 'thighs', 'back'];
-  selectedCategory = signal('arms');
+  exerciseGroups = signal<ExerciseGroupsDoc | null>(null);
+  selectedCategoryId = signal('');
   
   dateRanges = [
     { label: '7 Days', value: 7 },
@@ -26,12 +26,20 @@ export class StatsComponent {
   exercises = signal<ExerciseStats[]>([]);
   overall = signal<OverallStats | null>(null);
 
+  categories = computed(() => {
+    return this.exerciseGroups()?.categories.map(cat => ({
+      id: cat._id!,
+      name: cat.categoryName
+    })) ?? [];
+  });
+
   constructor(private apiService: ApiService) {
+    this.loadExerciseGroups();
     this.loadStats();
   }
 
-  selectCategory(category: string) {
-    this.selectedCategory.set(category);
+  selectCategory(categoryId: string) {
+    this.selectedCategoryId.set(categoryId);
     this.loadStats();
   }
 
@@ -73,8 +81,20 @@ export class StatsComponent {
     return '#ff6b6b'; // Red for bigger loss
   }
 
+  private loadExerciseGroups() {
+    this.apiService.getExerciseGroups().subscribe({
+      next: (groups) => {
+        this.exerciseGroups.set(groups);
+        if (groups && groups.categories.length > 0 && !this.selectedCategoryId()) {
+          this.selectedCategoryId.set(groups.categories[0]._id!);
+        }
+      },
+      error: (err) => console.error('Failed to load exercise groups:', err)
+    });
+  }
+
   private loadStats() {
-    this.apiService.getStats(this.selectedDays(), this.selectedCategory()).subscribe({
+    this.apiService.getStats(this.selectedDays(), this.selectedCategoryId()).subscribe({
       next: (response) => {
         this.exercises.set(response.exercises);
         this.overall.set(response.overall);
