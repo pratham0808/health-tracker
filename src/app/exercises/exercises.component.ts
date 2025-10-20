@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CategoryTabsComponent } from '../stats/category-tabs/category-tabs.component';
 import { ApiService, Exercise } from '../services/api.service';
 
 @Component({
   selector: 'app-exercises',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CategoryTabsComponent],
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.scss'
 })

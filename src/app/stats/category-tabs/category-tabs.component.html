@@ -1,0 +1,9 @@
+<div class="category-tabs">
+  @for (category of categories(); track category) {
+  <button class="tab" [class.active]="selectedCategory() === category" (click)="onSelect(category)">
+    {{ category }}
+  </button>
+  }
+</div>
+
+

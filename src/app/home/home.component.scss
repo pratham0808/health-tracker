@@ -4,7 +4,6 @@
 }
 
 .header-bar {
-  max-width: 600px;
   margin: 0 auto 20px;
   padding: 0 20px;
   display: flex;
@@ -76,7 +75,6 @@
 }
 
 .main-tabs {
-  max-width: 600px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -84,26 +82,26 @@
 
   .main-tab {
     flex: 1;
-    padding: 16px 24px;
-    border: 3px solid #f0e6d6;
+    padding: 10px 20px;
+    border: 2px solid #f0e6d6;
     background: #fffef8;
-    border-radius: 16px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
     color: #8b7355;
-    transition: all 0.3s;
+    transition: all 0.2s;
 
     &:hover {
       border-color: #f4a261;
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     &.active {
       background: #f4a261;
       border-color: #f4a261;
       color: white;
-      box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
+      box-shadow: 0 3px 10px rgba(244, 162, 97, 0.25);
     }
   }
 }
@@ -113,7 +111,6 @@
 }
 
 .placeholder {
-  max-width: 600px;
   margin: 0 auto;
   padding: 60px 20px;
   text-align: center;

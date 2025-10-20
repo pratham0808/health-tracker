@@ -1,0 +1,19 @@
+<div class="date-range-dropdown">
+  <button class="dropdown-trigger" (click)="toggleDropdown()">
+    <span class="dropdown-label">{{ getSelectedLabel() }}</span>
+    <span class="dropdown-arrow" [class.open]="isOpen">▼</span>
+  </button>
+  
+  @if (isOpen) {
+  <div class="dropdown-menu">
+    @for (range of dateRanges(); track range.value) {
+    <button 
+      class="dropdown-item" 
+      [class.active]="selectedDays() === range.value"
+      (click)="onSelect(range.value)">
+      {{ range.label }}
+    </button>
+    }
+  </div>
+  }
+</div>

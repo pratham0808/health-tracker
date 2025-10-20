@@ -4,6 +4,21 @@
     <p>Keep crushing it! 💪</p>
   </div>
 
+  <!-- Filters Row -->
+  <div class="filters-row">
+    <app-category-tabs 
+      [categories]="categories" 
+      [selectedCategory]="selectedCategory()" 
+      (categoryChange)="selectCategory($event)">
+    </app-category-tabs>
+    
+    <app-date-range-dropdown 
+      [dateRanges]="dateRanges" 
+      [selectedDays]="selectedDays()" 
+      (dateRangeChange)="selectDateRange($event)">
+    </app-date-range-dropdown>
+  </div>
+
   <!-- Overall Stats Cards -->
   @if (overall()) {
   <div class="overall-stats">
@@ -42,24 +57,6 @@
       </div>
     </div>
     }
-
-    <!-- Date Range Selector -->
-    <div class="date-range-selector">
-      @for (range of dateRanges; track range.value) {
-      <button class="range-btn" [class.active]="selectedDays() === range.value" (click)="selectDateRange(range.value)">
-        {{ range.label }}
-      </button>
-      }
-    </div>
-
-    <!-- Category Tabs -->
-    <div class="category-tabs">
-      @for (category of categories; track category) {
-      <button class="tab" [class.active]="selectedCategory() === category" (click)="selectCategory(category)">
-        {{ category }}
-      </button>
-      }
-    </div>
 
     <!-- Exercise Cards -->
     @if (exercises().length > 0) {

@@ -14,15 +14,12 @@
         (ngModelChange)="selectedDate.set($event); dateChanged()">
     </div>
 
-    <div class="category-tabs">
-      @for (category of categories; track category) {
-        <button 
-          class="tab"
-          [class.active]="selectedCategory() === category"
-          (click)="selectCategory(category)">
-          {{ category }}
-        </button>
-      }
+    <div class="category-tabs-container">
+      <app-category-tabs 
+        [categories]="categories" 
+        [selectedCategory]="selectedCategory()" 
+        (categoryChange)="selectCategory($event)">
+      </app-category-tabs>
     </div>
     
     <div class="add-exercise-dropdown">

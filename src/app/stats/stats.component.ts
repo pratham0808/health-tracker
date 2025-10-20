@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CategoryTabsComponent } from './category-tabs/category-tabs.component';
+import { DateRangeDropdownComponent } from './date-range-dropdown/date-range-dropdown.component';
 import { ApiService, ExerciseStats, OverallStats } from '../services/api.service';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CategoryTabsComponent, DateRangeDropdownComponent],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.scss'
 })

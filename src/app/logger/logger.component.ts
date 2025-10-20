@@ -1,13 +1,14 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CategoryTabsComponent } from '../stats/category-tabs/category-tabs.component';
 import { ApiService, Exercise, Log } from '../services/api.service';
 import moment from 'moment';
 
 @Component({
   selector: 'app-logger',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CategoryTabsComponent],
   templateUrl: './logger.component.html',
   styleUrl: './logger.component.scss'
 })
