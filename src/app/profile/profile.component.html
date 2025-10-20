@@ -1,0 +1,166 @@
+<div class="profile-container">
+  <div class="header">
+    <h1>Profile Settings</h1>
+    <p>Manage your personal information and fitness preferences</p>
+  </div>
+
+  <div class="profile-form">
+    <!-- Personal Information Accordion -->
+    <div class="accordion-section">
+      <div class="accordion-header" (click)="toggleSection('personal')">
+        <h3>Personal Information</h3>
+        <span class="accordion-icon">{{ isExpanded('personal') ? '▼' : '▶' }}</span>
+      </div>
+      @if (isExpanded('personal')) {
+        <div class="accordion-content">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstname">First Name</label>
+              <input 
+                id="firstname"
+                type="text" 
+                [(ngModel)]="profile().firstname"
+                placeholder="Enter your first name">
+            </div>
+            <div class="form-group">
+              <label for="lastname">Last Name</label>
+              <input 
+                id="lastname"
+                type="text" 
+                [(ngModel)]="profile().lastname"
+                placeholder="Enter your last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              id="email"
+              type="email" 
+              [(ngModel)]="profile().email"
+              placeholder="Enter your email">
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Physical Information Accordion -->
+    <div class="accordion-section">
+      <div class="accordion-header" (click)="toggleSection('physical')">
+        <h3>Physical Information</h3>
+        <span class="accordion-icon">{{ isExpanded('physical') ? '▼' : '▶' }}</span>
+      </div>
+      @if (isExpanded('physical')) {
+        <div class="accordion-content">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="weight">Weight (kg)</label>
+              <input 
+                id="weight"
+                type="number" 
+                [(ngModel)]="profile().weight"
+                placeholder="Enter your weight"
+                min="0"
+                step="0.1">
+            </div>
+            <div class="form-group">
+              <label for="height">Height (cm)</label>
+              <input 
+                id="height"
+                type="number" 
+                [(ngModel)]="profile().height"
+                placeholder="Enter your height"
+                min="0"
+                step="0.1">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input 
+                id="age"
+                type="number" 
+                [(ngModel)]="profile().age"
+                placeholder="Enter your age"
+                min="0"
+                max="150">
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" [(ngModel)]="profile().gender">
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          @if (bmi()) {
+            <div class="bmi-display">
+              <h4>BMI Information</h4>
+              <div class="bmi-info">
+                <span class="bmi-value">BMI: {{ bmi() }}</span>
+                <span class="bmi-category">{{ bmiCategory() }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Fitness Information Accordion -->
+    <div class="accordion-section">
+      <div class="accordion-header" (click)="toggleSection('fitness')">
+        <h3>Fitness Information</h3>
+        <span class="accordion-icon">{{ isExpanded('fitness') ? '▼' : '▶' }}</span>
+      </div>
+      @if (isExpanded('fitness')) {
+        <div class="accordion-content">
+          <div class="form-group">
+            <label for="fitnessLevel">Fitness Level</label>
+            <select id="fitnessLevel" [(ngModel)]="profile().fitnessLevel">
+              <option value="">Select fitness level</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Fitness Goals</label>
+            <div class="goals-container">
+              @for (goal of profile().goals; track $index) {
+                <div class="goal-item">
+                  <input 
+                    type="text" 
+                    [ngModel]="goal"
+                    (ngModelChange)="updateGoal($index, $event)"
+                    placeholder="Enter a fitness goal">
+                  <button 
+                    type="button" 
+                    class="remove-goal-btn"
+                    (click)="removeGoal($index)">×</button>
+                </div>
+              }
+              <button 
+                type="button" 
+                class="add-goal-btn"
+                (click)="addGoal()">+ Add Goal</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="save-actions">
+    <button 
+      (click)="saveProfile()" 
+      [disabled]="isSaving()"
+      class="save-btn">
+      @if (isSaving()) {
+        <span class="loading">💾 Saving...</span>
+      } @else {
+        <span>Save Profile</span>
+      }
+    </button>
+  </div>
+</div>

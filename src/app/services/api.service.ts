@@ -154,5 +154,14 @@ export class ApiService {
   deleteExerciseGroups(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/exercise-groups/${id}`, { headers: this.getHeaders() });
   }
+
+  // Profile endpoints
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`, { headers: this.getHeaders() });
+  }
+
+  updateProfile(profileData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/profile`, profileData, { headers: this.getHeaders() });
+  }
 }
 

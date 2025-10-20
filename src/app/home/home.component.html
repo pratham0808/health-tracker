@@ -1,43 +1,45 @@
 <div class="home-container">
   <div class="header-bar">
     <div class="user-info">
+      @if (activeTab() === 'manager' || activeTab() === 'profile') {
+      <button class="back-btn" (click)="goBack()">← Back</button>
+      }
       @if (currentUser()) {
-        <span>{{ currentUser()!.firstname }} {{ currentUser()!.lastname }}</span>
+      <span>{{ currentUser()!.firstname }} {{ currentUser()!.lastname }}</span>
       }
     </div>
     <div class="settings-container">
       <button class="settings-btn" (click)="toggleSettings()">⚙️</button>
       @if (showSettings()) {
-        <div class="settings-dropdown">
-          <button (click)="setTab('manager')">Manager</button>
-          <button (click)="logout()">Logout</button>
-        </div>
+      <div class="settings-dropdown">
+        <button (click)="setTab('manager')">Manager</button>
+        <button (click)="setTab('profile')">Profile</button>
+        <button (click)="logout()">Logout</button>
+      </div>
       }
     </div>
   </div>
 
   <div class="main-tabs">
-    <button 
-      class="main-tab"
-      [class.active]="activeTab() === 'logger'"
-      (click)="setTab('logger')">
+    @if (activeTab() === 'logger' || activeTab() === 'stats') {
+    <button class="main-tab" [class.active]="activeTab() === 'logger'" (click)="setTab('logger')">
       Logger
     </button>
-    <button 
-      class="main-tab"
-      [class.active]="activeTab() === 'stats'"
-      (click)="setTab('stats')">
+    <button class="main-tab" [class.active]="activeTab() === 'stats'" (click)="setTab('stats')">
       Stats
     </button>
+    }
   </div>
 
   <div class="tab-content">
     @if (activeTab() === 'manager') {
-      <app-exercises />
+    <app-exercises />
+    } @else if (activeTab() === 'profile') {
+    <app-profile />
     } @else if (activeTab() === 'logger') {
-      <app-logger />
+    <app-logger />
     } @else if (activeTab() === 'stats') {
-      <app-stats />
+    <app-stats />
     }
   </div>
 </div>

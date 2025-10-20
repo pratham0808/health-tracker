@@ -47,7 +47,6 @@ export class LoggerComponent {
 
   constructor(private apiService: ApiService) {
     this.loadExerciseGroups();
-    this.loadLogs();
   }
 
   selectCategory(categoryId: string) {
@@ -123,6 +122,8 @@ export class LoggerComponent {
         this.exerciseGroups.set(groups);
         if (groups && groups.categories.length > 0 && !this.selectedCategoryId()) {
           this.selectedCategoryId.set(groups.categories[0]._id!);
+          // Load logs after setting the first category
+          this.loadLogs();
         }
       },
       error: (err) => console.error('Failed to load exercise groups:', err)

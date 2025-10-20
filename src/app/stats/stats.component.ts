@@ -35,7 +35,6 @@ export class StatsComponent {
 
   constructor(private apiService: ApiService) {
     this.loadExerciseGroups();
-    this.loadStats();
   }
 
   selectCategory(categoryId: string) {
@@ -87,6 +86,8 @@ export class StatsComponent {
         this.exerciseGroups.set(groups);
         if (groups && groups.categories.length > 0 && !this.selectedCategoryId()) {
           this.selectedCategoryId.set(groups.categories[0]._id!);
+          // Load stats after setting the first category
+          this.loadStats();
         }
       },
       error: (err) => console.error('Failed to load exercise groups:', err)

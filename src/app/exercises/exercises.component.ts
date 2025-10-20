@@ -2,13 +2,12 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryTabsComponent } from '../stats/category-tabs/category-tabs.component';
 import { ApiService, ExerciseGroupsDoc } from '../services/api.service';
 
 @Component({
   selector: 'app-exercises',
   standalone: true,
-  imports: [CommonModule, FormsModule, CategoryTabsComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.scss'
 })
