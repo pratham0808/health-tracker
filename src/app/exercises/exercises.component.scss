@@ -22,9 +22,13 @@
   }
 }
 
-.category-management {
-  margin-bottom: 32px;
-
+  .category-management {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #fffef8;
+    border: 2px solid #f0e6d6;
+    border-radius: 10px;
+  
   .category-header {
     display: flex;
     justify-content: space-between;
