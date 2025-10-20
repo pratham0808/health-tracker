@@ -53,6 +53,15 @@ export interface EnhancedStatsResponse {
   overall: OverallStats;
 }
 
+// Exercise Groups
+export interface ExerciseGroupsDoc {
+  _id?: string;
+  categories: Array<{
+    categoryName: string;
+    exercises: Array<{ exerciseName: string }>;
+  }>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -119,6 +128,23 @@ export class ApiService {
     }
     
     return this.http.get<EnhancedStatsResponse>(url, { headers: this.getHeaders() });
+  }
+
+  // Exercise Groups endpoints
+  getExerciseGroups(): Observable<ExerciseGroupsDoc | null> {
+    return this.http.get<ExerciseGroupsDoc | null>(`${this.apiUrl}/exercise-groups`, { headers: this.getHeaders() });
+  }
+
+  getExerciseGroupsByUser(): Observable<ExerciseGroupsDoc | null> {
+    return this.http.get<ExerciseGroupsDoc | null>(`${this.apiUrl}/exercise-groups/user`, { headers: this.getHeaders() });
+  }
+
+  upsertExerciseGroups(doc: ExerciseGroupsDoc): Observable<ExerciseGroupsDoc> {
+    return this.http.post<ExerciseGroupsDoc>(`${this.apiUrl}/exercise-groups/upsert`, doc, { headers: this.getHeaders() });
+  }
+
+  deleteExerciseGroups(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/exercise-groups/${id}`, { headers: this.getHeaders() });
   }
 }
 

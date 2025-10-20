@@ -4,32 +4,63 @@
     <p>Define exercises for each muscle group</p>
   </div>
 
-  <div class="category-tabs-container">
-    <app-category-tabs 
-      [categories]="categories" 
-      [selectedCategory]="selectedCategory()" 
-      (categoryChange)="selectCategory($event)">
-    </app-category-tabs>
-  </div>
-
-  <div class="add-exercise">
-    <input 
-      type="text" 
-      [(ngModel)]="newExerciseName"
-      placeholder="Enter exercise name"
-      (keyup.enter)="addExercise()">
-    <button (click)="addExercise()">Add</button>
-  </div>
-
-  <div class="exercises-list">
-    @for (exercise of getExercisesByCategory(selectedCategory()); track exercise._id) {
-      <div class="exercise-item">
-        <span>{{ exercise.name }}</span>
-        <button class="delete-btn" (click)="deleteExercise(exercise._id!)">×</button>
+  <!-- Category Management -->
+  <div class="category-management">
+    <div class="category-header">
+      <h3>Groups</h3>
+      <div class="add-category">
+        <button (click)="addNewCategoryCard()">Add Group</button>
       </div>
-    } @empty {
-      <div class="empty-state">No exercises added yet</div>
+    </div>
+    
+    @if (getCategories().length > 0) {
+      <div class="groups-list">
+        @for (category of getCategories(); track category) {
+          <div class="group-card">
+            <div class="group-header">
+              <input 
+                type="text" 
+                [ngModel]="category"
+                (ngModelChange)="updateCategoryName(category, $event)"
+                placeholder="Enter group name (e.g., Arms)"
+                class="category-name-input">
+              <div class="header-actions">
+                <button (click)="addExerciseToCategory(category)">Add Exercise</button>
+                <button class="delete-btn" (click)="deleteCategory(category)">×</button>
+              </div>
+            </div>
+            <div class="group-body">
+              <div class="exercises-list">
+                @for (exercise of getExercisesByCategory(category); track trackByIndex($index)) {
+                  <div class="exercise-item">
+                    <input 
+                      type="text" 
+                      [ngModel]="exercise.exerciseName"
+                      (ngModelChange)="updateExerciseNameByIndex(category, $index, $event)"
+                      class="exercise-name-input">
+                    <button class="delete-btn" (click)="deleteExerciseFromCategoryByIndex(category, $index)">×</button>
+                  </div>
+                } @empty {
+                  <div class="empty-state">No exercises in this group</div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">No groups yet. Create one above.</div>
     }
+  </div>
+
+  <div class="save-actions">
+    <button (click)="saveAll()" [disabled]="isSaving()">
+      @if (isSaving()) {
+        <span class="loading">💾 Saving...</span>
+      } @else {
+        <span>Save All</span>
+      }
+    </button>
   </div>
 </div>
 

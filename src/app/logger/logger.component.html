@@ -16,7 +16,7 @@
 
     <div class="category-tabs-container">
       <app-category-tabs 
-        [categories]="categories" 
+        [categories]="categories()" 
         [selectedCategory]="selectedCategory()" 
         (categoryChange)="selectCategory($event)">
       </app-category-tabs>

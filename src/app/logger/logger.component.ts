@@ -2,7 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryTabsComponent } from '../stats/category-tabs/category-tabs.component';
-import { ApiService, Exercise, Log } from '../services/api.service';
+import { ApiService, Exercise, Log, ExerciseGroupsDoc } from '../services/api.service';
 import moment from 'moment';
 
 @Component({
@@ -13,12 +13,16 @@ import moment from 'moment';
   styleUrl: './logger.component.scss'
 })
 export class LoggerComponent {
-  categories = ['arms', 'core', 'thighs', 'back'];
-  selectedCategory = signal('arms');
+  exerciseGroups = signal<ExerciseGroupsDoc | null>(null);
+  selectedCategory = signal('');
   selectedDate = signal(this.getTodayDate());
   exercises = signal<Exercise[]>([]);
   logs = signal<Log[]>([]);
   selectedExerciseId = '';
+
+  categories = computed(() => {
+    return this.exerciseGroups()?.categories.map(cat => cat.categoryName) ?? [];
+  });
 
   logsForDate = computed(() => {
     return this.logs().filter(log => {
@@ -37,6 +41,7 @@ export class LoggerComponent {
   });
 
   constructor(private apiService: ApiService) {
+    this.loadExerciseGroups();
     this.loadExercises();
     this.loadLogs();
   }
@@ -103,6 +108,18 @@ export class LoggerComponent {
 
   getTodayDate(): string {
     return moment().format('YYYY-MM-DD');
+  }
+
+  private loadExerciseGroups() {
+    this.apiService.getExerciseGroupsByUser().subscribe({
+      next: (groups) => {
+        this.exerciseGroups.set(groups);
+        if (groups && groups.categories.length > 0 && !this.selectedCategory()) {
+          this.selectedCategory.set(groups.categories[0].categoryName);
+        }
+      },
+      error: (err) => console.error('Failed to load exercise groups:', err)
+    });
   }
 
   private loadExercises() {
