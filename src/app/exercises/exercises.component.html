@@ -2,7 +2,63 @@
   <div class="header">
     <h1>Exercise Manager</h1>
     <p>Define exercises for each muscle group</p>
+    <div class="ai-toggle">
+      <button 
+        (click)="toggleAIMode()" 
+        [class.active]="showAIMode()"
+        class="ai-mode-btn">
+        🤖 AI Mode
+      </button>
+    </div>
   </div>
+
+  <!-- AI Mode Section -->
+  @if (showAIMode()) {
+    <div class="ai-section">
+      <div class="ai-header">
+        <h3>🤖 AI Exercise Suggestions</h3>
+        <p>Describe your fitness goals and let AI suggest exercise groups and exercises.</p>
+      </div>
+      
+      <div class="ai-input-section">
+        <textarea 
+          [(ngModel)]="aiInput"
+          placeholder="e.g., 'Remove the arms exercises', 'Add cardio exercises', 'Replace squats with lunges', 'Create a full body workout', 'Reorganize my exercises'"
+          class="ai-textarea"
+          rows="3">
+        </textarea>
+        
+            <div class="ai-actions">
+              <button
+                (click)="generateAISuggestions()"
+                [disabled]="isGeneratingAI() || !aiInput().trim()"
+                class="generate-btn">
+                @if (isGeneratingAI()) {
+                  <span class="loading">🤖 Generating...</span>
+                } @else {
+                  <span>Generate Suggestions</span>
+                }
+              </button>
+              <button (click)="toggleAIMode()" class="cancel-btn">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      }
+
+      <!-- AI Summary (outside AI card) -->
+      @if (aiSummary()) {
+        <div class="ai-summary-external">
+          <div class="summary-header">
+            <div class="summary-title-section">
+              <span class="summary-icon">📋</span>
+              <span class="summary-title">AI Summary</span>
+            </div>
+            <button (click)="clearAISummary()" class="summary-close-btn">×</button>
+          </div>
+          <div class="summary-content">{{ aiSummary() }}</div>
+        </div>
+      }
 
   <!-- Category Management -->
   <div class="category-management">
@@ -33,11 +89,17 @@
               <div class="exercises-list">
                 @for (exercise of getExercisesByCategory(category); track trackByIndex($index)) {
                   <div class="exercise-item">
-                    <input 
-                      type="text" 
-                      [ngModel]="exercise.exerciseName"
-                      (ngModelChange)="updateExerciseNameByIndex(category, $index, $event)"
-                      class="exercise-name-input">
+                    <div class="exercise-content">
+                      <input 
+                        type="text" 
+                        [ngModel]="exercise.exerciseName"
+                        (ngModelChange)="updateExerciseNameByIndex(category, $index, $event)"
+                        class="exercise-name-input"
+                        placeholder="Exercise name">
+                      @if (exercise.description) {
+                        <div class="exercise-description">{{ exercise.description }}</div>
+                      }
+                    </div>
                     <button class="delete-btn" (click)="deleteExerciseFromCategoryByIndex(category, $index)">×</button>
                   </div>
                 } @empty {

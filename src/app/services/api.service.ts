@@ -61,12 +61,14 @@ export interface EnhancedStatsResponse {
 // Exercise Groups
 export interface ExerciseGroupsDoc {
   _id?: string;
+  summary?: string; // AI-generated summary
   categories: Array<{
     _id?: string;
     categoryName: string;
     exercises: Array<{ 
       _id?: string;
       exerciseName: string;
+      description: string; // Required field
     }>;
   }>;
 }
@@ -188,6 +190,14 @@ export class ApiService {
 
   deleteLogEssential(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/log-essentials/${id}`, { headers: this.getHeaders() });
+  }
+
+  // AI suggestions endpoints
+  getAISuggestions(userInput: string, existingGroups?: ExerciseGroupsDoc): Observable<ExerciseGroupsDoc> {
+    return this.http.post<ExerciseGroupsDoc>(`${this.apiUrl}/ai/suggestions`, { 
+      userInput, 
+      existingGroups 
+    }, { headers: this.getHeaders() });
   }
 }
 
