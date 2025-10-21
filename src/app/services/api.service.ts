@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Exercise {
   _id?: string;
@@ -74,7 +75,7 @@ export interface ExerciseGroupsDoc {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
   private getHeaders(): HttpHeaders {
