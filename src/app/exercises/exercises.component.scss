@@ -226,7 +226,6 @@
 
   .category-management {
     margin-bottom: 32px;
-    padding: 20px;
     background: #fffef8;
     border: 2px solid #f0e6d6;
     border-radius: 10px;
@@ -235,7 +234,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 20px;
 
     h3 {
       margin: 0;
@@ -266,7 +265,6 @@
 
 
   .groups-list {
-    display: grid;
     gap: 16px;
   }
 
