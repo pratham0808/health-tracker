@@ -80,7 +80,7 @@ export class ProfileComponent {
   });
 
   isSaving = signal(false);
-  expandedSections = signal<Set<string>>(new Set(['personal']));
+  expandedSections = signal<Set<string>>(new Set(['personal', 'healthFitness']));
 
   // Computed properties for BMI calculation
   bmi = computed(() => {

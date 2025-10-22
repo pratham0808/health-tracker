@@ -113,6 +113,23 @@
     }
   }
 
+  .info-subsection {
+    margin-bottom: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h4 {
+      margin: 0 0 16px 0;
+      color: #2c2416;
+      font-size: 16px;
+      font-weight: 600;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #f0e6d6;
+    }
+  }
+
   .bmi-display {
     margin-top: 20px;
     padding: 16px;
@@ -120,10 +137,11 @@
     border-radius: 6px;
     border-left: 4px solid #f4a261;
 
-    h4 {
+    h5 {
       margin: 0 0 8px 0;
       color: #2c2416;
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .bmi-info {
