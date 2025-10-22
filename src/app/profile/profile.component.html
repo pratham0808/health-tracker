@@ -150,164 +150,15 @@
       }
     </div>
 
-    <!-- Essential Goals Accordion -->
-    <div class="accordion-section">
-      <div class="accordion-header" (click)="toggleSection('essentials')">
-        <h3>Essential Goals</h3>
-        <span class="accordion-icon">{{ isExpanded('essentials') ? '▼' : '▶' }}</span>
-      </div>
-      @if (isExpanded('essentials')) {
-        <div class="accordion-content">
-          <!-- Core Daily Goals -->
-          <div class="goals-section">
-            <h4>Daily Goals</h4>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="waterGoal">💧 Water Goal (liters)</label>
-                <input 
-                  id="waterGoal"
-                  type="number" 
-                  [(ngModel)]="profile().waterGoal"
-                  placeholder="Enter daily water goal"
-                  min="0"
-                  step="0.1">
-              </div>
-              <div class="form-group">
-                <label for="stepsGoal">🚶 Steps Goal</label>
-                <input 
-                  id="stepsGoal"
-                  type="number" 
-                  [(ngModel)]="profile().stepsGoal"
-                  placeholder="Enter daily steps goal"
-                  min="0"
-                  step="100">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="calorieGoal">🔥 Calories Goal</label>
-                <input 
-                  id="calorieGoal"
-                  type="number" 
-                  [(ngModel)]="profile().calorieGoal"
-                  placeholder="Enter daily calorie goal"
-                  min="0"
-                  step="50">
-              </div>
-              <div class="form-group">
-                <label for="sleepGoal">😴 Sleep Goal (hours)</label>
-                <input 
-                  id="sleepGoal"
-                  type="number" 
-                  [(ngModel)]="profile().sleepGoal"
-                  placeholder="Enter daily sleep goal"
-                  min="0"
-                  max="24"
-                  step="0.5">
-              </div>
-            </div>
-          </div>
-
-          <!-- Body Goals -->
-          <div class="goals-section">
-            <h4>Body Goals</h4>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="weightGoal">⚖️ Target Weight (kg)</label>
-                <input 
-                  id="weightGoal"
-                  type="number" 
-                  [(ngModel)]="profile().weightGoal"
-                  placeholder="Enter target weight"
-                  min="0"
-                  step="0.1">
-              </div>
-              <div class="form-group">
-                <label for="bodyFatGoal">📊 Body Fat Goal (%)</label>
-                <input 
-                  id="bodyFatGoal"
-                  type="number" 
-                  [(ngModel)]="profile().bodyFatGoal"
-                  placeholder="Enter body fat goal"
-                  min="0"
-                  max="100"
-                  step="0.1">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="muscleMassGoal">💪 Muscle Mass Goal (kg)</label>
-                <input 
-                  id="muscleMassGoal"
-                  type="number" 
-                  [(ngModel)]="profile().muscleMassGoal"
-                  placeholder="Enter muscle mass goal"
-                  min="0"
-                  step="0.1">
-              </div>
-              <div class="form-group">
-                <label for="waistGoal">📏 Waist Goal (cm)</label>
-                <input 
-                  id="waistGoal"
-                  type="number" 
-                  [(ngModel)]="profile().waistGoal"
-                  placeholder="Enter waist goal"
-                  min="0"
-                  step="0.1">
-              </div>
-            </div>
-          </div>
-
-          <!-- Lifestyle Goals -->
-          <div class="goals-section">
-            <h4>Lifestyle Goals</h4>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="meditationGoal">🧘 Meditation Goal (min)</label>
-                <input 
-                  id="meditationGoal"
-                  type="number" 
-                  [(ngModel)]="profile().meditationGoal"
-                  placeholder="Enter daily meditation goal"
-                  min="0"
-                  step="5">
-              </div>
-              <div class="form-group">
-                <label for="readingGoal">📚 Reading Goal (min)</label>
-                <input 
-                  id="readingGoal"
-                  type="number" 
-                  [(ngModel)]="profile().readingGoal"
-                  placeholder="Enter daily reading goal"
-                  min="0"
-                  step="5">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="screenTimeGoal">📱 Screen Time Limit (hrs)</label>
-                <input 
-                  id="screenTimeGoal"
-                  type="number" 
-                  [(ngModel)]="profile().screenTimeGoal"
-                  placeholder="Enter max screen time"
-                  min="0"
-                  step="0.5">
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-    </div>
-
-    <!-- Tracking Preferences Accordion -->
+    <!-- Daily Tracking Settings Accordion -->
     <div class="accordion-section">
       <div class="accordion-header" (click)="toggleSection('tracking')">
-        <h3>Tracking Preferences</h3>
+        <h3>Daily Tracking Settings</h3>
         <span class="accordion-icon">{{ isExpanded('tracking') ? '▼' : '▶' }}</span>
       </div>
       @if (isExpanded('tracking')) {
         <div class="accordion-content">
+          <!-- Tracking Preferences -->
           <div class="tracking-section">
             <h4>Choose what you want to track daily</h4>
             <p class="tracking-description">Enable only the metrics you want to track. Disabled items won't appear in your daily logging.</p>
@@ -323,7 +174,17 @@
                     <span class="tracking-text">Water Intake</span>
                   </span>
                 </label>
-              </div>
+                <div class="goal-input">
+                  <div class="goal-with-unit">
+                    <input type="number" 
+                [(ngModel)]="profile().waterGoal"
+                           placeholder="Goal"
+                           min="0" step="0.1"
+                           class="goal-field">
+                    <span class="unit">L</span>
+                  </div>
+                </div>
+            </div>
               
               <div class="tracking-item">
                 <label class="tracking-checkbox">
@@ -335,6 +196,16 @@
                     <span class="tracking-text">Steps</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="goal-with-unit">
+                    <input type="number" 
+                           [(ngModel)]="profile().stepsGoal"
+                           placeholder="Goal"
+                           min="0" step="100"
+                           class="goal-field">
+                    <span class="unit">steps</span>
+                  </div>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -347,6 +218,16 @@
                     <span class="tracking-text">Calories</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="goal-with-unit">
+                    <input type="number" 
+                           [(ngModel)]="profile().calorieGoal"
+                           placeholder="Goal"
+                           min="0" step="50"
+                           class="goal-field">
+                    <span class="unit">cal</span>
+                  </div>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -359,6 +240,16 @@
                     <span class="tracking-text">Sleep</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="goal-with-unit">
+                    <input type="number" 
+                           [(ngModel)]="profile().sleepGoal"
+                           placeholder="Goal"
+                           min="0" max="24" step="0.5"
+                           class="goal-field">
+                    <span class="unit">hrs</span>
+                  </div>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -371,6 +262,16 @@
                     <span class="tracking-text">Weight</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="goal-with-unit">
+                    <input type="number" 
+                           [(ngModel)]="profile().weightGoal"
+                           placeholder="Goal"
+                           min="0" step="0.1"
+                           class="goal-field">
+                    <span class="unit">kg</span>
+                  </div>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -383,6 +284,9 @@
                     <span class="tracking-text">Mood & Energy</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <span class="no-goal">No goal needed</span>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -395,6 +299,37 @@
                     <span class="tracking-text">Body Measurements</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="multi-goal-section">
+                    <h5 class="goal-header">Target Goals</h5>
+                    <div class="measurement-goals">
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().bodyFatGoal"
+                               placeholder="Body Fat"
+                               min="0" max="100" step="0.1"
+                               class="goal-field small">
+                        <span class="unit">%</span>
+                      </div>
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().muscleMassGoal"
+                               placeholder="Muscle"
+                               min="0" step="0.1"
+                               class="goal-field small">
+                        <span class="unit">kg</span>
+                      </div>
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().waistGoal"
+                               placeholder="Waist"
+                               min="0" step="0.1"
+                               class="goal-field small">
+                        <span class="unit">cm</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -407,6 +342,9 @@
                     <span class="tracking-text">Supplements</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <span class="no-goal">No goal needed</span>
+                </div>
               </div>
               
               <div class="tracking-item">
@@ -419,6 +357,37 @@
                     <span class="tracking-text">Habits</span>
                   </span>
                 </label>
+                <div class="goal-input">
+                  <div class="multi-goal-section">
+                    <h5 class="goal-header">Daily Targets</h5>
+                    <div class="habit-goals">
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().meditationGoal"
+                               placeholder="Meditation"
+                               min="0" step="5"
+                               class="goal-field small">
+                        <span class="unit">min</span>
+                      </div>
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().readingGoal"
+                               placeholder="Reading"
+                               min="0" step="5"
+                               class="goal-field small">
+                        <span class="unit">min</span>
+                      </div>
+                      <div class="goal-with-unit">
+                        <input type="number" 
+                               [(ngModel)]="profile().screenTimeGoal"
+                               placeholder="Screen Limit"
+                               min="0" step="0.5"
+                               class="goal-field small">
+                        <span class="unit">hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -151,7 +151,6 @@
   .goals-container {
     .goal-item {
       display: flex;
-      gap: 8px;
       margin-bottom: 8px;
       align-items: center;
 
@@ -195,30 +194,7 @@
     }
   }
 
-  // Goals sections styling
-  .goals-section {
-    margin-bottom: 24px;
-    padding: 16px;
-    background: #f8f5f0;
-    border-radius: 8px;
-    border: 2px solid #f0e6d6;
-
-    h4 {
-      margin: 0 0 16px 0;
-      font-size: 16px;
-      font-weight: 600;
-      color: #2c2416;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  // Tracking preferences styling
+  // Daily Tracking Settings styling
   .tracking-section {
     h4 {
       margin: 0 0 8px 0;
@@ -236,25 +212,29 @@
 
     .tracking-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
 
       .tracking-item {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        background: white;
+        border: 2px solid #f0e6d6;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #f4a261;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(244, 162, 97, 0.15);
+        }
+
         .tracking-checkbox {
           display: flex;
           align-items: center;
           cursor: pointer;
-          padding: 12px;
-          background: white;
-          border: 2px solid #f0e6d6;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-
-          &:hover {
-            border-color: #f4a261;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(244, 162, 97, 0.15);
-          }
 
           input[type="checkbox"] {
             margin-right: 12px;
@@ -280,14 +260,90 @@
               color: #2c2416;
             }
           }
+        }
 
-          &:has(input:checked) {
-            background: #f8f5f0;
-            border-color: #f4a261;
-            
-            .tracking-text {
-              color: #f4a261;
+        .goal-input {
+          margin-left: 30px;
+
+          .goal-with-unit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .goal-field {
+              flex: 1;
+              padding: 8px 12px;
+              border: 1px solid #e0d6c6;
+              border-radius: 4px;
+              font-size: 14px;
+              background: #faf9f7;
+
+              &:focus {
+                outline: none;
+                border-color: #f4a261;
+                background: white;
+              }
+
+              &.small {
+                width: calc(33.333% - 8px);
+                margin-right: 8px;
+
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
             }
+
+            .unit {
+              font-size: 12px;
+              color: #8b7355;
+              font-weight: 500;
+              min-width: 30px;
+              text-align: center;
+            }
+          }
+
+          .multi-goal-section {
+            .goal-header {
+              margin: 0 0 8px 0;
+              font-size: 12px;
+              font-weight: 600;
+              color: #8b7355;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+
+            .measurement-goals,
+            .habit-goals {
+              display: flex;
+              flex-wrap: wrap;
+
+              .goal-with-unit {
+                flex: 1;
+                min-width: 0;
+
+                .goal-field.small {
+                  width: 100%;
+                  margin-right: 0;
+                }
+              }
+            }
+          }
+
+          .no-goal {
+            font-size: 12px;
+            color: #8b7355;
+            font-style: italic;
+            padding: 8px 0;
+          }
+        }
+
+        &:has(input:checked) {
+          background: #f8f5f0;
+          border-color: #f4a261;
+          
+          .tracking-text {
+            color: #f4a261;
           }
         }
       }
