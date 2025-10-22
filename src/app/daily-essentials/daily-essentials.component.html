@@ -2,10 +2,7 @@
   <div class="essentials-summary">
     <div class="summary-header">
       <h3>Log Essentials</h3>
-      <input 
-        type="date" 
-        class="date-input"
-        [ngModel]="selectedDate()"
+      <input type="date" class="date-input" [ngModel]="selectedDate()"
         (ngModelChange)="selectedDate.set($event); dateChanged()">
     </div>
 
@@ -21,7 +18,8 @@
             <div class="progress-bar">
               <div class="progress-fill" [style.width.%]="getWaterProgress()"></div>
             </div>
-            <span class="progress-text">{{ (logEssential()?.waterIntake || 0) | number:'1.1-1' }}L / {{ userProfile()?.waterGoal || 3 }}L</span>
+            <span class="progress-text">{{ (logEssential()?.waterIntake || 0) | number:'1.1-1' }}L / {{
+              userProfile()?.waterGoal || 3 }}L</span>
           </div>
           <button class="increment-btn" (click)="incrementWater()">+</button>
         </div>
@@ -38,11 +36,219 @@
             <div class="progress-bar">
               <div class="progress-fill" [style.width.%]="getStepsProgress()"></div>
             </div>
-            <span class="progress-text">{{ (logEssential()?.steps || 0) | number }} / {{ (userProfile()?.stepsGoal || 10000) | number }}</span>
+            <span class="progress-text">{{ (logEssential()?.steps || 0) | number }} / {{ (userProfile()?.stepsGoal ||
+              10000) | number }}</span>
           </div>
           <button class="increment-btn" (click)="incrementSteps()">+</button>
         </div>
       </div>
+
+      <!-- Calories Section -->
+      @if (shouldShowSection('calories')) {
+      <div class="essential-item calories-section">
+        <div class="essential-header">
+          <span class="essential-name">🔥 Calories</span>
+          <span class="essential-goal">{{ userProfile()?.calorieGoal || 2000 }} goal</span>
+        </div>
+        <div class="calories-breakdown">
+          <div class="calorie-input">
+            <label>Consumed</label>
+            <input type="number" [ngModel]="getCurrentCaloriesConsumed()"
+              (ngModelChange)="updateCaloriesConsumed($event)" placeholder="0">
+          </div>
+          <div class="calorie-input">
+            <label>Burned</label>
+            <input type="number" [ngModel]="getCurrentCaloriesBurned()" (ngModelChange)="updateCaloriesBurned($event)"
+              placeholder="0">
+          </div>
+          <div class="net-calories">
+            <span class="net-label">Net:</span>
+            <span class="net-value" [class.positive]="getNetCalories() > 0" [class.negative]="getNetCalories() < 0">
+              {{ getNetCalories() }}
+            </span>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getCaloriesProgress()"></div>
+          </div>
+          <span class="progress-text">{{ getCurrentCaloriesConsumed() }} / {{ userProfile()?.calorieGoal || 2000
+            }}</span>
+        </div>
+      </div>
+      }
+
+      <!-- Sleep Section -->
+      @if (shouldShowSection('sleep')) {
+      <div class="essential-item sleep-section">
+        <div class="essential-header">
+          <span class="essential-name">😴 Sleep</span>
+          <span class="essential-goal">{{ userProfile()?.sleepGoal || 8 }}h goal</span>
+        </div>
+        <div class="sleep-inputs">
+          <div class="sleep-input">
+            <label>Hours</label>
+            <input type="number" min="0" max="24" step="0.5" [ngModel]="getCurrentSleepHours()"
+              (ngModelChange)="updateSleepHours($event)" placeholder="0">
+          </div>
+          <div class="sleep-quality">
+            <label>Quality (1-5)</label>
+            <div class="quality-stars">
+              @for (star of [1,2,3,4,5]; track star) {
+              <span class="star" [class.active]="star <= getCurrentSleepQuality()"
+                (click)="updateSleepQuality(star)">★</span>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getSleepProgress()"></div>
+          </div>
+          <span class="progress-text">{{ getCurrentSleepHours() }}h / {{ userProfile()?.sleepGoal || 8 }}h</span>
+        </div>
+      </div>
+      }
+
+      <!-- Weight Section -->
+      @if (shouldShowSection('weight')) {
+      <div class="essential-item weight-section">
+        <div class="essential-header">
+          <span class="essential-name">⚖️ Weight</span>
+          <span class="essential-goal">{{ userProfile()?.weightGoal || 70 }}kg goal</span>
+        </div>
+        <div class="weight-input">
+          <input type="number" step="0.1" [ngModel]="getCurrentWeight()" (ngModelChange)="updateWeight($event)"
+            placeholder="0.0">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      }
+
+      <!-- Mood & Energy Section -->
+      @if (shouldShowSection('mood')) {
+      <div class="essential-item mood-energy-section">
+        <div class="essential-header">
+          <span class="essential-name">😊 Mood & Energy</span>
+        </div>
+        <div class="mood-energy-inputs">
+          <div class="rating-input">
+            <label>Mood (1-10)</label>
+            <div class="rating-slider">
+              <input type="range" min="1" max="10" [ngModel]="getCurrentMood()" (ngModelChange)="updateMood($event)"
+                class="slider">
+              <span class="rating-value">{{ getCurrentMood() }}</span>
+            </div>
+          </div>
+          <div class="rating-input">
+            <label>Energy (1-10)</label>
+            <div class="rating-slider">
+              <input type="range" min="1" max="10" [ngModel]="getCurrentEnergy()" (ngModelChange)="updateEnergy($event)"
+                class="slider">
+              <span class="rating-value">{{ getCurrentEnergy() }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- Body Measurements Section -->
+      @if (shouldShowSection('bodyMeasurements')) {
+      <div class="essential-item measurements-section">
+        <div class="essential-header">
+          <span class="essential-name">📏 Body Measurements</span>
+        </div>
+        <div class="measurements-inputs">
+          <div class="measurement-input">
+            <label>Body Fat %</label>
+            <input type="number" min="0" max="100" step="0.1" [ngModel]="getCurrentBodyFatPercentage()"
+              (ngModelChange)="updateBodyFatPercentage($event)" placeholder="0.0">
+          </div>
+          <div class="measurement-input">
+            <label>Muscle Mass (kg)</label>
+            <input type="number" min="0" step="0.1" [ngModel]="getCurrentMuscleMass()"
+              (ngModelChange)="updateMuscleMass($event)" placeholder="0.0">
+          </div>
+          <div class="measurement-input">
+            <label>Waist (cm)</label>
+            <input type="number" min="0" step="0.1" [ngModel]="getCurrentWaistCircumference()"
+              (ngModelChange)="updateWaistCircumference($event)" placeholder="0.0">
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- Supplements Section -->
+      @if (shouldShowSection('supplements')) {
+      <div class="essential-item supplements-section">
+        <div class="essential-header">
+          <span class="essential-name">💊 Supplements</span>
+        </div>
+        <div class="supplements-inputs">
+          <div class="supplement-checkboxes">
+            <label class="checkbox-label">
+              <input type="checkbox" [checked]="getCurrentSupplements().multivitamin"
+                (change)="toggleMultivitamin($event.target.checked)">
+              Multivitamin
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" [checked]="getCurrentSupplements().vitaminD"
+                (change)="toggleVitaminD($event.target.checked)">
+              Vitamin D
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" [checked]="getCurrentSupplements().omega3"
+                (change)="toggleOmega3($event.target.checked)">
+              Omega-3
+            </label>
+          </div>
+          <div class="supplement-input">
+            <label>Protein Powder (g)</label>
+            <input type="number" min="0" [ngModel]="getCurrentSupplements().proteinPowder"
+              (ngModelChange)="updateProteinPowder($event)" placeholder="0">
+          </div>
+          <div class="supplement-input">
+            <label>Other</label>
+            <input type="text" [ngModel]="getCurrentSupplements().other"
+              (ngModelChange)="updateOtherSupplements($event)" placeholder="Other supplements">
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- Habits Section -->
+      @if (shouldShowSection('habits')) {
+      <div class="essential-item habits-section">
+        <div class="essential-header">
+          <span class="essential-name">🎯 Habits</span>
+        </div>
+        <div class="habits-inputs">
+          <div class="habit-input">
+            <label>Meditation (min)</label>
+            <input type="number" min="0" [ngModel]="getCurrentHabits().meditation"
+              (ngModelChange)="updateMeditation($event)" placeholder="0">
+          </div>
+          <div class="habit-input">
+            <label>Reading (min)</label>
+            <input type="number" min="0" [ngModel]="getCurrentHabits().reading" (ngModelChange)="updateReading($event)"
+              placeholder="0">
+          </div>
+          <div class="habit-input">
+            <label>Screen Time (hrs)</label>
+            <input type="number" min="0" step="0.5" [ngModel]="getCurrentHabits().screenTime"
+              (ngModelChange)="updateScreenTime($event)" placeholder="0">
+          </div>
+          <div class="habit-input">
+            <label>Stress Level (1-10)</label>
+            <div class="rating-slider">
+              <input type="range" min="1" max="10" [ngModel]="getCurrentHabits().stressLevel"
+                (ngModelChange)="updateStressLevel($event)" class="slider">
+              <span class="rating-value">{{ getCurrentHabits().stressLevel }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
     </div>
   </div>
 </div>

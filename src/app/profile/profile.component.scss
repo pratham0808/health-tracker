@@ -195,6 +195,105 @@
     }
   }
 
+  // Goals sections styling
+  .goals-section {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #f8f5f0;
+    border-radius: 8px;
+    border: 2px solid #f0e6d6;
+
+    h4 {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c2416;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Tracking preferences styling
+  .tracking-section {
+    h4 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #2c2416;
+    }
+
+    .tracking-description {
+      margin: 0 0 20px 0;
+      font-size: 14px;
+      color: #8b7355;
+      line-height: 1.4;
+    }
+
+    .tracking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+
+      .tracking-item {
+        .tracking-checkbox {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          padding: 12px;
+          background: white;
+          border: 2px solid #f0e6d6;
+          border-radius: 8px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: #f4a261;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 162, 97, 0.15);
+          }
+
+          input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #f4a261;
+            cursor: pointer;
+          }
+
+          .tracking-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+
+            .tracking-icon {
+              font-size: 18px;
+            }
+
+            .tracking-text {
+              font-size: 14px;
+              font-weight: 600;
+              color: #2c2416;
+            }
+          }
+
+          &:has(input:checked) {
+            background: #f8f5f0;
+            border-color: #f4a261;
+            
+            .tracking-text {
+              color: #f4a261;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .save-actions {
     text-align: center;
     padding-top: 24px;

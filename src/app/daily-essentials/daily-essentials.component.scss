@@ -154,6 +154,427 @@
   }
 }
 
+// New Essential Sections Styling
+
+// Calories Section
+.calories-section {
+  .calories-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .calorie-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 8px 12px;
+        border: 2px solid #f0e6d6;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2416;
+        background: white;
+        outline: none;
+
+        &:focus {
+          border-color: #f4a261;
+        }
+      }
+    }
+
+    .net-calories {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      background: #f8f5f0;
+      border-radius: 6px;
+      border: 2px solid #f0e6d6;
+
+      .net-label {
+        font-size: 12px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      .net-value {
+        font-size: 16px;
+        font-weight: 700;
+
+        &.positive {
+          color: #27ae60;
+        }
+
+        &.negative {
+          color: #e74c3c;
+        }
+      }
+    }
+  }
+}
+
+// Sleep Section
+.sleep-section {
+  .sleep-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .sleep-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 8px 12px;
+        border: 2px solid #f0e6d6;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2416;
+        background: white;
+        outline: none;
+
+        &:focus {
+          border-color: #f4a261;
+        }
+      }
+    }
+
+    .sleep-quality {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      .quality-stars {
+        display: flex;
+        gap: 4px;
+
+        .star {
+          font-size: 20px;
+          color: #f0e6d6;
+          cursor: pointer;
+          transition: color 0.2s;
+
+          &.active {
+            color: #f4a261;
+          }
+
+          &:hover {
+            color: #f4a261;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Weight Section
+.weight-section {
+  .weight-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #f0e6d6;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #2c2416;
+      background: white;
+      outline: none;
+
+      &:focus {
+        border-color: #f4a261;
+      }
+    }
+
+    .unit {
+      font-size: 12px;
+      color: #8b7355;
+      font-weight: 600;
+      background: #f8f5f0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 2px solid #f0e6d6;
+    }
+  }
+}
+
+// Mood & Energy Section
+.mood-energy-section {
+  .mood-energy-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    .rating-input {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      .rating-slider {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .slider {
+          flex: 1;
+          height: 6px;
+          background: #f0e6d6;
+          border-radius: 3px;
+          outline: none;
+          cursor: pointer;
+
+          &::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #f4a261;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+
+          &::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #f4a261;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+        }
+
+        .rating-value {
+          font-size: 16px;
+          font-weight: 700;
+          color: #2c2416;
+          background: #f8f5f0;
+          padding: 4px 8px;
+          border-radius: 4px;
+          min-width: 24px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// Body Measurements Section
+.measurements-section {
+  .measurements-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+
+    .measurement-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 8px 12px;
+        border: 2px solid #f0e6d6;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2416;
+        background: white;
+        outline: none;
+
+        &:focus {
+          border-color: #f4a261;
+        }
+      }
+    }
+  }
+}
+
+// Supplements Section
+.supplements-section {
+  .supplements-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .supplement-checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #2c2416;
+        font-weight: 600;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+          accent-color: #f4a261;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .supplement-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 8px 12px;
+        border: 2px solid #f0e6d6;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2416;
+        background: white;
+        outline: none;
+
+        &:focus {
+          border-color: #f4a261;
+        }
+      }
+    }
+  }
+}
+
+// Habits Section
+.habits-section {
+  .habits-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    .habit-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-size: 11px;
+        color: #8b7355;
+        font-weight: 600;
+      }
+
+      input {
+        padding: 8px 12px;
+        border: 2px solid #f0e6d6;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c2416;
+        background: white;
+        outline: none;
+
+        &:focus {
+          border-color: #f4a261;
+        }
+      }
+
+      .rating-slider {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .slider {
+          flex: 1;
+          height: 6px;
+          background: #f0e6d6;
+          border-radius: 3px;
+          outline: none;
+          cursor: pointer;
+
+          &::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #f4a261;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+
+          &::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #f4a261;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+        }
+
+        .rating-value {
+          font-size: 16px;
+          font-weight: 700;
+          color: #2c2416;
+          background: #f8f5f0;
+          padding: 4px 8px;
+          border-radius: 4px;
+          min-width: 24px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);

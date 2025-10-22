@@ -14,8 +14,32 @@ export interface UserProfile {
   gender?: 'male' | 'female' | 'other';
   fitnessLevel?: 'beginner' | 'intermediate' | 'advanced';
   goals?: string[];
+  // Essential goals
   waterGoal?: number;
   stepsGoal?: number;
+  calorieGoal?: number;
+  sleepGoal?: number;
+  weightGoal?: number;
+  bodyFatGoal?: number;
+  muscleMassGoal?: number;
+  waistGoal?: number;
+  meditationGoal?: number;
+  readingGoal?: number;
+  screenTimeGoal?: number;
+  
+  // Tracking preferences - required
+  trackingPreferences: {
+    waterIntake: boolean;
+    steps: boolean;
+    calories: boolean;
+    sleep: boolean;
+    weight: boolean;
+    mood: boolean;
+    energy: boolean;
+    bodyMeasurements: boolean;
+    supplements: boolean;
+    habits: boolean;
+  };
 }
 
 @Component({
@@ -40,7 +64,19 @@ export class ProfileComponent {
     fitnessLevel: undefined,
     goals: [],
     waterGoal: 3,
-    stepsGoal: 10000
+    stepsGoal: 10000,
+    trackingPreferences: {
+      waterIntake: true,
+      steps: true,
+      calories: false,
+      sleep: false,
+      weight: false,
+      mood: false,
+      energy: false,
+      bodyMeasurements: false,
+      supplements: false,
+      habits: false
+    }
   });
 
   isSaving = signal(false);
@@ -107,6 +143,53 @@ export class ProfileComponent {
       ...profile,
       goals: profile.goals?.map((goal, i) => i === index ? value : goal) || []
     }));
+  }
+
+  // Tracking preferences methods
+  getTrackingPreference(key: string): boolean {
+    const preferences = this.profile()?.trackingPreferences;
+    if (!preferences) {
+      // Return default values if preferences not set
+      const defaults: { [key: string]: boolean } = {
+        waterIntake: true,
+        steps: true,
+        calories: false,
+        sleep: false,
+        weight: false,
+        mood: false,
+        energy: false,
+        bodyMeasurements: false,
+        supplements: false,
+        habits: false
+      };
+      return defaults[key] || false;
+    }
+    return preferences[key as keyof typeof preferences] || false;
+  }
+
+  updateTrackingPreference(key: string, value: boolean) {
+    this.profile.update(profile => {
+      const currentPreferences = profile.trackingPreferences || {
+        waterIntake: true,
+        steps: true,
+        calories: false,
+        sleep: false,
+        weight: false,
+        mood: false,
+        energy: false,
+        bodyMeasurements: false,
+        supplements: false,
+        habits: false
+      };
+      
+      return {
+        ...profile,
+        trackingPreferences: {
+          ...currentPreferences,
+          [key]: value
+        }
+      };
+    });
   }
 
   saveProfile() {
